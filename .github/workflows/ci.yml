@@ -1,0 +1,14 @@
+name: CI pipe
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+jobs:
+  lint-compose:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: docker compose linter 
+        run: docker compose config -q
+      

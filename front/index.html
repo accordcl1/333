@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <title>Task Tracker — Prod Sim</title>
+  <style>
+    body { font-family: sans-serif; max-width: 600px; margin: 40px auto; background: #111; color: #eee; }
+    input, button { padding: 8px 12px; font-size: 16px; }
+    button { cursor: pointer; }
+    ul { padding-left: 20px; }
+    li { margin: 8px 0; }
+  </style>
+</head>
+<body>
+  <h1>Task Tracker</h1>
+  <form id="task-form">
+    <input id="task-input" type="text" placeholder="Новая задача..." required />
+    <button type="submit">Добавить</button>
+  </form>
+  <ul id="task-list"></ul>
+
+  <script>
+    async function loadTasks() {
+      const res = await fetch('/api/tasks');
+      const tasks = await res.json();
+      const list = document.getElementById('task-list');
+      list.innerHTML = '';
+      tasks.forEach(t => {
+        const li = document.createElement('li');
+        li.textContent = `#${t.id}: ${t.text}`;
+        list.appendChild(li);
+      });
+    }
+
+    document.getElementById('task-form').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const input = document.getElementById('task-input');
+      await fetch('/api/tasks', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ text: input.value })
+      });
+      input.value = '';
+      loadTasks();
+    });
+
+    loadTasks();
+  </script>
+</body>
+</html> 

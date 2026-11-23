@@ -1,0 +1,24 @@
+services:
+  backend:
+    build: ./back
+    expose:
+      - "5000"
+    volumes:
+      - volume:/data
+    networks:
+      - network1
+
+  frontend:
+    build: ./front
+    ports:
+      - "8081:80"
+    depends_on:
+      - backend
+    networks:
+      - network1
+
+volumes:
+  volume:
+
+networks:
+  network1:
