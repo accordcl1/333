@@ -5,10 +5,22 @@ on:
   pull_request:
     branches: [main]
 jobs:
-  lint-compose:
+  ci-checks:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: docker compose linter 
+      - name: docker compose linter
         run: docker compose config -q
-      
+
+      - name: Set up Go
+        uses: actions/setup-go@v5
+        with:
+          go-version: '1.26'
+
+      - name: go vet
+        working-directory: ./back
+        run: go vet ./...
+
+      - name: go tests
+        working-directory: ./back
+        run: go test -v ./...
