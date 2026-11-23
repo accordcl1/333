@@ -25,11 +25,11 @@ jobs:
         working-directory: ./back
         run: go test -v ./...
       - name: docker back lint
-        uses: hadolint/hadolint-actions@v3.1.0
+        uses: hadolint/hadolint-action@v3.1.0
         with:
           dockerfile: ./back/Dockerfile
       - name: docker front lint
-        uses: hadolint/hadolint-actions@v3.1.0
+        uses: hadolint/hadolint-action@v3.1.0
         with:
           dockerfile: ./front/Dockerfile
       - name: build docker image
